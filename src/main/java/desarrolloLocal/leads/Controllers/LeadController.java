@@ -1,15 +1,15 @@
 package desarrolloLocal.leads.Controllers;
 
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadQueryGetAllDto;
+import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadRequestCreateDto;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadResponseGetAllDto;
 import desarrolloLocal.leads.Models.Enums.FontType;
 import desarrolloLocal.leads.Services.LeadServiceAdapter;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.time.LocalDate;
 
 @RestController
@@ -40,5 +40,13 @@ public class LeadController {
 
         var leads = leadServiceAdapter.GetAllAsync(query);
         return ResponseEntity.ok(leads);
+    }
+
+    @PostMapping
+    public ResponseEntity<String> CreateAsync(@Valid @RequestBody LeadRequestCreateDto request){
+        String id = leadServiceAdapter.CreateAsync(request);
+        var location = URI.create("api/leads/" + id);
+
+        return ResponseEntity.created(location).body("Lead creado con éxito: " + id);
     }
 }

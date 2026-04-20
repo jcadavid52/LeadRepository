@@ -23,6 +23,12 @@ public class LeadRepositoryAdapter implements LeadRepository {
         return HandlePagination(leads, query.pageSize(), query.pageNumber());
     }
 
+    @Override
+    public String CreateAsync(Lead lead) {
+        var leadCreated = jpaLeadRepository.save(lead);
+        return leadCreated.getId();
+    }
+
     private List<Lead> GetData(LeadQueryGetAllDto query) {
         LocalDateTime startDateTime = (query.startDate() != null)
                 ? query.startDate().atStartOfDay()

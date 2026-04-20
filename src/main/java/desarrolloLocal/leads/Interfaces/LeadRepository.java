@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface LeadRepository {
     List<Lead> GetAllAsync(LeadQueryGetAllDto query);
+    String CreateAsync(Lead lead);
 }

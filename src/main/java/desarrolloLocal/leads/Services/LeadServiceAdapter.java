@@ -4,6 +4,7 @@ import desarrolloLocal.leads.Interfaces.LeadRepository;
 import desarrolloLocal.leads.Interfaces.LeadService;
 import desarrolloLocal.leads.Mappers.LeadMapper;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadQueryGetAllDto;
+import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadRequestCreateDto;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadResponseGetAllDto;
 import desarrolloLocal.leads.Models.Entities.Lead;
 import org.springframework.stereotype.Service;
@@ -33,5 +34,11 @@ public class LeadServiceAdapter implements LeadService {
 
         var leadsMappers = leadMapper.leadToListDto(leads);
         return new LeadResponseGetAllDto(leadsMappers,leadsMappers.size());
+    }
+
+    @Override
+    public String CreateAsync(LeadRequestCreateDto requestCreateDto) {
+        var leadToCreate = leadMapper.createRequestToEntity(requestCreateDto);
+        return leadRepository.CreateAsync(leadToCreate);
     }
 }
