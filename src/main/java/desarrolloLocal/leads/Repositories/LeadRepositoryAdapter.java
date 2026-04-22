@@ -34,6 +34,11 @@ public class LeadRepositoryAdapter implements LeadRepository {
         return leadCreated.getId();
     }
 
+    @Override
+    public void UpdateAsync(Lead lead) {
+        jpaLeadRepository.save(lead);
+    }
+
     private List<Lead> GetData(LeadQueryGetAllDto query) {
         LocalDateTime startDateTime = (query.startDate() != null)
                 ? query.startDate().atStartOfDay()

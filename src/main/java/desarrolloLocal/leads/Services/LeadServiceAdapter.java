@@ -7,6 +7,7 @@ import desarrolloLocal.leads.Mappers.LeadMapper;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadDto;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadQueryGetAllDto;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadRequestCreateDto;
+import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadRequestPatchDto;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadResponseGetAllDto;
 import desarrolloLocal.leads.Models.Entities.Lead;
 import org.springframework.stereotype.Service;
@@ -45,5 +46,14 @@ public class LeadServiceAdapter implements LeadService {
     public String CreateAsync(LeadRequestCreateDto requestCreateDto) {
         Lead leadToCreate = leadMapper.createRequestToEntity(requestCreateDto);
         return leadRepository.CreateAsync(leadToCreate);
+    }
+
+    @Override
+    public void UpdateAsync(String id, LeadRequestPatchDto requestPatchDto) {
+        Lead existingLead = leadRepository.GetByIdAsync(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Lead no encontrado con id: " + id));
+
+        leadMapper.updateLeadFromPatch(requestPatchDto,existingLead);
+        leadRepository.UpdateAsync(existingLead);
     }
 }

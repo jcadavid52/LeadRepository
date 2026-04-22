@@ -3,6 +3,7 @@ package desarrolloLocal.leads.Controllers;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadDto;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadQueryGetAllDto;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadRequestCreateDto;
+import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadRequestPatchDto;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadResponseGetAllDto;
 import desarrolloLocal.leads.Models.Enums.FontType;
 import desarrolloLocal.leads.Services.LeadServiceAdapter;
@@ -47,5 +48,15 @@ public class LeadController {
         var location = URI.create("api/leads/" + id);
 
         return ResponseEntity.created(location).body("Lead creado con éxito: " + id);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> UpdateAsync(
+            @PathVariable String id,
+           @Valid @RequestBody LeadRequestPatchDto request) {
+
+        leadServiceAdapter.UpdateAsync(id, request);
+
+        return ResponseEntity.noContent().build();
     }
 }

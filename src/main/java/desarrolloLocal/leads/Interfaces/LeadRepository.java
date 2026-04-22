@@ -10,4 +10,5 @@ public interface LeadRepository {
     List<Lead> GetAllAsync(LeadQueryGetAllDto query);
     Optional<Lead> GetByIdAsync(String id);
     String CreateAsync(Lead lead);
+    void UpdateAsync(Lead lead);
 }
