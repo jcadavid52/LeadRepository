@@ -1,5 +1,6 @@
 package desarrolloLocal.leads.Controllers;
 
+import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadDto;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadQueryGetAllDto;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadRequestCreateDto;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadResponseGetAllDto;
@@ -24,22 +25,20 @@ public class LeadController {
     @GetMapping
     public ResponseEntity<LeadResponseGetAllDto> Get(
             @RequestParam(required = false) LocalDate startDate,
-            @RequestParam(required = false)LocalDate finishDate,
-            @RequestParam(required = false)FontType font,
-            @RequestParam(defaultValue = "5")int pageSize,
-            @RequestParam(defaultValue = "0")int pageNumber
-            ){
-
-        var query = new LeadQueryGetAllDto(
-            pageSize,
-            pageNumber,
-            font,
-            startDate,
-            finishDate
-        );
-
+            @RequestParam(required = false) LocalDate finishDate,
+            @RequestParam(required = false) FontType font,
+            @RequestParam(defaultValue = "5") int pageSize,
+            @RequestParam(defaultValue = "0") int pageNumber
+    ) {
+        var query = new LeadQueryGetAllDto(pageSize, pageNumber, font, startDate, finishDate);
         var leads = leadServiceAdapter.GetAllAsync(query);
         return ResponseEntity.ok(leads);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<LeadDto> GetById(@PathVariable String id) {
+        LeadDto lead = leadServiceAdapter.GetByIdAsync(id);
+        return ResponseEntity.ok(lead);
     }
 
     @PostMapping

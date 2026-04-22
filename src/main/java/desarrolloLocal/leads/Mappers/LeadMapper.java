@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface LeadMapper {
-    LeadDto map(Lead lead);
+    LeadDto leadToDto(Lead lead);
     List<LeadDto> leadToListDto(List<Lead> leads);
     Lead createRequestToEntity(LeadRequestCreateDto request);
 }

@@ -4,12 +4,17 @@ import desarrolloLocal.leads.Models.Enums.FontType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UuidGenerator;
+
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
 @Entity
 @Table(name = "Leads")
-public class Lead extends BaseEntity {
+public class Lead extends BaseEntity{
+
     @Column(length = 100)
     private String name;
 

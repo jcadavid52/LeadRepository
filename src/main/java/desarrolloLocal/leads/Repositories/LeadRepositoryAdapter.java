@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 @Repository
 public class LeadRepositoryAdapter implements LeadRepository {
@@ -21,6 +21,11 @@ public class LeadRepositoryAdapter implements LeadRepository {
     public List<Lead> GetAllAsync(LeadQueryGetAllDto query) {
         var leads = GetData(query);
         return HandlePagination(leads, query.pageSize(), query.pageNumber());
+    }
+
+    @Override
+    public Optional<Lead> GetByIdAsync(String id) {
+        return jpaLeadRepository.findById(id);
     }
 
     @Override

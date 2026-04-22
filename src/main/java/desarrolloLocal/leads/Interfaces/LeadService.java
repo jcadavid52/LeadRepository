@@ -1,12 +1,12 @@
 package desarrolloLocal.leads.Interfaces;
 
+import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadDto;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadQueryGetAllDto;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadRequestCreateDto;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadResponseGetAllDto;
 
-import java.util.List;
-
 public interface LeadService {
     LeadResponseGetAllDto GetAllAsync(LeadQueryGetAllDto query);
+    LeadDto GetByIdAsync(String id);
     String CreateAsync(LeadRequestCreateDto requestCreateDto);
 }
