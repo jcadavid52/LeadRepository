@@ -59,4 +59,10 @@ public class LeadController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> DeleteAsync(@PathVariable String id) {
+        leadServiceAdapter.DeleteAsync(id);
+        return ResponseEntity.noContent().build();
+    }
 }

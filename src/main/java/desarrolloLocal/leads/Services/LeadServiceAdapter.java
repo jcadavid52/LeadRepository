@@ -12,6 +12,7 @@ import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadResponseGetAllDto;
 import desarrolloLocal.leads.Models.Entities.Lead;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -54,6 +55,14 @@ public class LeadServiceAdapter implements LeadService {
                 .orElseThrow(() -> new ResourceNotFoundException("Lead no encontrado con id: " + id));
 
         leadMapper.updateLeadFromPatch(requestPatchDto,existingLead);
+        existingLead.setUpdateDate(LocalDateTime.now());
         leadRepository.UpdateAsync(existingLead);
+    }
+
+    @Override
+    public void DeleteAsync(String id) {
+        Lead existingLead = leadRepository.GetByIdAsync(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Lead no encontrado con id: " + id));
+        leadRepository.DeleteAsync(id);
     }
 }

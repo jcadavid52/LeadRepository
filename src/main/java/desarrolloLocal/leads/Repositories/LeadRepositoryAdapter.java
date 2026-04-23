@@ -39,6 +39,11 @@ public class LeadRepositoryAdapter implements LeadRepository {
         jpaLeadRepository.save(lead);
     }
 
+    @Override
+    public void DeleteAsync(String id) {
+        jpaLeadRepository.deleteById(id);
+    }
+
     private List<Lead> GetData(LeadQueryGetAllDto query) {
         LocalDateTime startDateTime = (query.startDate() != null)
                 ? query.startDate().atStartOfDay()

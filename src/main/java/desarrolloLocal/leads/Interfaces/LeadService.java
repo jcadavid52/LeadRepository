@@ -11,4 +11,5 @@ public interface LeadService {
     LeadDto GetByIdAsync(String id);
     String CreateAsync(LeadRequestCreateDto requestCreateDto);
     void UpdateAsync(String id, LeadRequestPatchDto requestPatchDto);
+    void DeleteAsync(String id);
 }

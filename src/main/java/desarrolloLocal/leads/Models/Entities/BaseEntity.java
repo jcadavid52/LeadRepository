@@ -1,8 +1,7 @@
 package desarrolloLocal.leads.Models.Entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,16 +9,19 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
 
-@Setter
-@Getter
-@MappedSuperclass
-public class BaseEntity {
-    @Id
-    @UuidGenerator
-    @Column(length = 36)
-    private String id;
 
-    @CreationTimestamp
-    @Column(name = "CreationDate")
+@Data
+@MappedSuperclass
+public abstract class BaseEntity {
+
+    @Column(name = "creation_date", updatable = false)
     private LocalDateTime creationDate;
+
+    @Column(name = "update_date")
+    private LocalDateTime updateDate;
+
+    @PrePersist
+    protected void onCreate() {
+        this.creationDate = LocalDateTime.now();
+    }
 }

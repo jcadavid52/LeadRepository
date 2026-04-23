@@ -11,4 +11,5 @@ public interface LeadRepository {
     Optional<Lead> GetByIdAsync(String id);
     String CreateAsync(Lead lead);
     void UpdateAsync(Lead lead);
+    void DeleteAsync(String id);
 }

@@ -11,6 +11,7 @@ public record LeadDto(
     String phoneNumber,
     String interestingProduct,
     FontType font,
-    LocalDateTime creationDate
+    LocalDateTime creationDate,
+    LocalDateTime updateDate
 ) {
 }
