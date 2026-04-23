@@ -1,9 +1,12 @@
 package desarrolloLocal.leads.Repositories;
 
 import desarrolloLocal.leads.Interfaces.LeadRepository;
+import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.CountGroupFontResultDto;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadQueryGetAllDto;
 import desarrolloLocal.leads.Models.Entities.Lead;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -26,6 +29,22 @@ public class LeadRepositoryAdapter implements LeadRepository {
     @Override
     public Optional<Lead> GetByIdAsync(String id) {
         return jpaLeadRepository.findById(id);
+    }
+
+    @Override
+    public List<CountGroupFontResultDto> GetCountGroupFont() {
+        return jpaLeadRepository.getCountGroupFont();
+    }
+
+    @Override
+    public List<Lead> GetRecents(LocalDateTime limitDate) {
+        Pageable limit = PageRequest.of(0, 7);
+        return jpaLeadRepository.getRecents(limitDate,limit);
+    }
+
+    @Override
+    public long Count() {
+        return jpaLeadRepository.count();
     }
 
     @Override

@@ -1,10 +1,6 @@
 package desarrolloLocal.leads.Controllers;
 
-import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadDto;
-import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadQueryGetAllDto;
-import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadRequestCreateDto;
-import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadRequestPatchDto;
-import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadResponseGetAllDto;
+import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.*;
 import desarrolloLocal.leads.Models.Enums.FontType;
 import desarrolloLocal.leads.Services.LeadServiceAdapter;
 import jakarta.validation.Valid;
@@ -40,6 +36,13 @@ public class LeadController {
     public ResponseEntity<LeadDto> GetById(@PathVariable String id) {
         LeadDto lead = leadServiceAdapter.GetByIdAsync(id);
         return ResponseEntity.ok(lead);
+    }
+
+    @GetMapping("/stats")
+    public ResponseEntity<StatsResponseDto> GetStats(){
+        var stats = leadServiceAdapter.GetStats();
+
+        return ResponseEntity.ok(stats);
     }
 
     @PostMapping

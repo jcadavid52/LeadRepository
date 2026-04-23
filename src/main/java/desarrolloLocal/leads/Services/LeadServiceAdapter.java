@@ -4,11 +4,7 @@ import desarrolloLocal.leads.Exceptions.ResourceNotFoundException;
 import desarrolloLocal.leads.Interfaces.LeadRepository;
 import desarrolloLocal.leads.Interfaces.LeadService;
 import desarrolloLocal.leads.Mappers.LeadMapper;
-import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadDto;
-import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadQueryGetAllDto;
-import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadRequestCreateDto;
-import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadRequestPatchDto;
-import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.LeadResponseGetAllDto;
+import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.*;
 import desarrolloLocal.leads.Models.Entities.Lead;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +37,20 @@ public class LeadServiceAdapter implements LeadService {
         Lead lead = leadRepository.GetByIdAsync(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Lead no encontrado con id: " + id));
         return leadMapper.leadToDto(lead);
+    }
+
+    @Override
+    public StatsResponseDto GetStats() {
+        int quantityDatys = 7;
+        var daysAgo = LocalDateTime.now().minusDays(quantityDatys);
+        var leadRecents = leadRepository.GetRecents(daysAgo);
+        var leadRecentsDtos = leadMapper.leadToListDto(leadRecents);
+
+        long totalLeads = leadRepository.Count();
+
+        var groupFont = leadRepository.GetCountGroupFont();
+
+        return new StatsResponseDto(totalLeads,groupFont,leadRecentsDtos);
     }
 
     @Override
