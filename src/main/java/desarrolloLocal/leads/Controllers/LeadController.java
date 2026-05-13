@@ -23,14 +23,7 @@ public class LeadController {
     }
 
     @GetMapping
-    public ResponseEntity<LeadResponseGetAllDto> Get(
-            @RequestParam(required = false) LocalDate startDate,
-            @RequestParam(required = false) LocalDate finishDate,
-            @RequestParam(required = false) FontType font,
-            @RequestParam(defaultValue = "5") int pageSize,
-            @RequestParam(defaultValue = "0") int pageNumber
-    ) {
-        var query = new LeadQueryGetAllDto(pageSize, pageNumber, font, startDate, finishDate);
+    public ResponseEntity<LeadResponseGetAllDto> Get(LeadQueryGetAllDto query) {
         var leads = leadServiceAdapter.GetAllAsync(query);
         return ResponseEntity.ok(leads);
     }

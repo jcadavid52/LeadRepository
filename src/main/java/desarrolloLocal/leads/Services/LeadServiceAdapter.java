@@ -1,7 +1,6 @@
 package desarrolloLocal.leads.Services;
 
 import com.google.genai.Client;
-import com.google.genai.types.GenerateContentResponse;
 import desarrolloLocal.leads.Exceptions.ResourceNotFoundException;
 import desarrolloLocal.leads.Interfaces.LeadRepository;
 import desarrolloLocal.leads.Interfaces.LeadService;
@@ -67,8 +66,12 @@ public class LeadServiceAdapter implements LeadService {
     @Override
     public String GenerateSummaryAi(LeadRequestSummaryAI requestSummaryAI) {
 
+        String message = "Los filtros ingresados no generan una data adecuada para generar el resumen ejecutivo, pruebe con otro filtro.";
         var leads = leadRepository.GetAllAsync(requestSummaryAI.query());
 
+        if(leads.size() <= 1){
+            return message;
+        }
         String leadsString = leads.stream()
                 .map(Object::toString)
                 .collect(Collectors.joining(", "));
@@ -97,6 +100,6 @@ public class LeadServiceAdapter implements LeadService {
     public void DeleteAsync(String id) {
         Lead existingLead = leadRepository.GetByIdAsync(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Lead no encontrado con id: " + id));
-        leadRepository.DeleteAsync(id);
+        leadRepository.DeleteAsync(existingLead.getId());
     }
 }

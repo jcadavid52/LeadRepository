@@ -3,6 +3,7 @@ package desarrolloLocal.leads.GlobalExceptionHandler;
 import desarrolloLocal.leads.Exceptions.ResourceNotFoundException;
 import desarrolloLocal.leads.Models.Dtos.LeadModelDtos.ErrorResponseDto;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.BeanInstantiationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -42,6 +43,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponseDto> handleJsonError(HttpMessageNotReadableException ex, HttpServletRequest request) {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, "Error en el formato del JSON", "El cuerpo de la petición no es legible", request);
+    }
+
+    @ExceptionHandler(BeanInstantiationException.class)
+    public ResponseEntity<ErrorResponseDto> handleBeanInstantiation(BeanInstantiationException ex, HttpServletRequest request) {
+        String message = (ex.getCause() != null) ? ex.getCause().getMessage() : ex.getMessage();
+
+        return buildErrorResponse(
+                HttpStatus.BAD_REQUEST,
+                "Error de validación en parámetros",
+                message,
+                request
+        );
     }
 
     @ExceptionHandler(Exception.class)

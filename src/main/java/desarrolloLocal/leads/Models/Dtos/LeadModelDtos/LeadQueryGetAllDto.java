@@ -12,4 +12,12 @@ public record LeadQueryGetAllDto(
         LocalDate startDate,
         LocalDate finishDate
 ){
+    public LeadQueryGetAllDto {
+        if (pageSize == null) pageSize = 10;
+        if (pageNumber == null) pageNumber = 0;
+
+        if (startDate != null && finishDate != null && startDate.isAfter(finishDate)) {
+            throw new IllegalArgumentException("La fecha de inicio no puede ser posterior a la de fin");
+        }
+    }
 }
