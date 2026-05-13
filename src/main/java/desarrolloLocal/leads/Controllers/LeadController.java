@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.time.LocalDate;
 
+import com.google.genai.Client;
+import com.google.genai.types.GenerateContentResponse;
+
 @RestController
 @RequestMapping("api/leads")
 public class LeadController {
@@ -51,6 +54,14 @@ public class LeadController {
         var location = URI.create("api/leads/" + id);
 
         return ResponseEntity.created(location).body("Lead creado con éxito: " + id);
+    }
+
+    @PostMapping("/ai/summary")
+    public ResponseEntity<?> SummaryAI(@RequestBody LeadRequestSummaryAI requestSummaryAI){
+
+        String responseSummaryAi = leadServiceAdapter.GenerateSummaryAi(requestSummaryAI);
+
+        return ResponseEntity.ok(responseSummaryAi);
     }
 
     @PatchMapping("/{id}")

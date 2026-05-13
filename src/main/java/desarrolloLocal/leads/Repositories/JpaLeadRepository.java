@@ -15,10 +15,11 @@ import java.util.List;
 @Repository
 public interface JpaLeadRepository extends JpaRepository<Lead, String> {
 
-    @Query("SELECT l FROM Lead l WHERE " +
-           "(:font IS NULL OR l.font = :font) AND " +
-           "(:startDate IS NULL OR l.creationDate >= :startDate) AND " +
-           "(:finishDate IS NULL OR l.creationDate <= :finishDate) " +
+    @Query("SELECT l " +
+           "FROM Lead l " +
+           "WHERE (:font IS NULL OR l.font = :font) " +
+           "AND (:startDate IS NULL OR l.creationDate >= :startDate) " +
+           "AND (:finishDate IS NULL OR l.creationDate <= :finishDate) " +
            "ORDER BY l.creationDate DESC")
     List<Lead> findWithFilters(
         @Param("font") FontType font,
@@ -26,9 +27,17 @@ public interface JpaLeadRepository extends JpaRepository<Lead, String> {
         @Param("finishDate") LocalDateTime finishDate
     );
 
-    @Query("SELECT l.font,COUNT(*) FROM Lead l GROUP BY l.font")
+    @Query("SELECT " +
+            "l.font," +
+            "COUNT(*) " +
+            "FROM Lead l " +
+            "GROUP BY l.font")
     List<CountGroupFontResultDto> getCountGroupFont();
 
-    @Query("SELECT l FROM Lead l WHERE l.creationDate >= :limitDate ORDER BY l.creationDate DESC")
+    @Query("SELECT " +
+            "l " +
+            "FROM Lead l " +
+            "WHERE l.creationDate >= :limitDate " +
+            "ORDER BY l.creationDate DESC")
     List<Lead> getRecents(@Param("limitDate") LocalDateTime limitDate, Pageable pageable);
 }
